@@ -255,7 +255,11 @@ class ToIterableDataset(data.IterableDataset):
             # discard ids in workers.
             sampler = _shard_iterator_dataloader_worker(self.sampler)
         for idx in sampler:
-            yield self.dataset[idx]
+            try:
+                data= self.dataset[idx]
+                yield data
+            except:
+                print("FAILED TO LOAD DATA")
 
     def __len__(self):
         return len(self.sampler)
